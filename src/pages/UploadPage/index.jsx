@@ -2,11 +2,21 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { Component } from 'react';
 import { Upload, Button, Icon } from 'antd';
 import styles from './index.less';
+import Uploader from '@/utils/upload';
+
+const up = new Uploader();
 
 class UploadPage extends Component {
+  static LENGTH = 10;
+
   state = {
     fileList: [],
     uploading: false,
+  };
+
+  handleUpload = () => {
+    const file = this.state.fileList[0];
+    console.log(up.uploadChunks(file));
   };
 
   render() {
