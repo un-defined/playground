@@ -111,6 +111,12 @@ export default {
               authority: ['admin'],
             },
             {
+              name: '空白页面',
+              icon: 'smile',
+              path: '/upload',
+              component: './UploadPage',
+            },
+            {
               component: './404',
             },
           ],
