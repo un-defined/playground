@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class Uploader {
   createFileChunks = (file, pieces = 10) => {
     const chunks = [];
@@ -8,9 +10,35 @@ class Uploader {
     return chunks;
   };
 
-  uploadChunks(file) {
+  async uploadChunks(file) {
+    const fname = file.name;
     const chunks = this.createFileChunks(file);
     console.log(chunks);
+    const requestList = chunks
+      .map(({ chunk, hash }) => {
+        const formData = new FormData();
+        formData.append('chunk', chunk);
+        formData.append('hash', hash);
+        formData.append('filename', fname);
+        return formData;
+      })
+      .map(async data =>
+        axios({
+          method: 'post',
+          url: '/server/api/upload',
+          data,
+        }),
+      );
+
+    await Promise.all(requestList)
+      .then(values => {
+        console.log(values);
+      })
+      .catch(err => {
+        console.warn(err);
+      });
+
+    await axios.post('/server/api/merge', { filename: fname });
   }
 }
 

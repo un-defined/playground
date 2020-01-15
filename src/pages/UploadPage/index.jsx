@@ -14,9 +14,9 @@ class UploadPage extends Component {
     uploading: false,
   };
 
-  handleUpload = () => {
+  handleUpload = async () => {
     const file = this.state.fileList[0];
-    console.log(up.uploadChunks(file));
+    console.log(await up.uploadChunks(file));
   };
 
   render() {
