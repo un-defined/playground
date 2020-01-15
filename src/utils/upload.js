@@ -13,7 +13,7 @@ class Uploader {
   async uploadChunks(file) {
     const fname = file.name;
     const chunks = this.createFileChunks(file);
-    console.log(chunks);
+    // console.log(chunks);
     const requestList = chunks
       .map(({ chunk, hash }) => {
         const formData = new FormData();
@@ -25,7 +25,7 @@ class Uploader {
       .map(async data =>
         axios({
           method: 'post',
-          url: '/server/api/upload',
+          url: 'http://localhost:7001/api/upload',
           data,
         }),
       );
@@ -38,7 +38,7 @@ class Uploader {
         console.warn(err);
       });
 
-    await axios.post('/server/api/merge', { filename: fname });
+    await axios.post('http://localhost:7001/api/merge', { filename: fname });
   }
 }
 
