@@ -16,7 +16,15 @@ class UploadPage extends Component {
 
   handleUpload = async () => {
     const file = this.state.fileList[0];
-    console.log(await up.uploadChunks(file));
+    console.log(
+      await up.uploadChunks({
+        file,
+        pieces: 5,
+        onProgress: (idx, loaded, total) => {
+          console.log(`[${idx}] - ${loaded}/${total}`);
+        },
+      }),
+    );
   };
 
   render() {
