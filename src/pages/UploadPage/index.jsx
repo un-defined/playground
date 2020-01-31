@@ -21,13 +21,12 @@ class UploadPage extends Component {
     const file = this.state.fileList[0];
     await up.uploadChunks({
       file,
-      pieces: 5,
+      pieces: this.LENGTH,
       onProgress: this.handleProgress.bind(this, file),
     });
   };
 
   handleProgress(file, idx, loaded, total) {
-    console.log(loaded);
     this.setState(prevState => {
       const uplist = prevState.uplist.slice();
       const percent = parseInt(String((loaded / total) * 100), 10);
@@ -37,6 +36,7 @@ class UploadPage extends Component {
             loaded,
             chunkName: `${file.name}-${idx}`,
             percent,
+            size: total,
           });
       const totalPercent = (uplist.reduce((prev, cur) => prev + cur.loaded, 0) / file.size) * 100;
 
