@@ -27,7 +27,7 @@ const columns = [
 ];
 
 const ProgressTable = props => 
-  <Table size="middle" columns={columns} dataSource={
+  <Table size="middle" columns={columns} pagination={false} dataSource={
     props.list.filter(item => !!item).map((item, idx) => ({
       key: idx,
       hash: item.chunkName,

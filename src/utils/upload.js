@@ -10,14 +10,13 @@ class Uploader {
     return chunks;
   };
 
-  calculateHash(fileChunkList) {
+  calculateHash = fileChunkList => {
     return new Promise(resolve => {
       let worker = new Worker("/hash.js");
       worker.postMessage({ fileChunkList });
       worker.onmessage = e => {
         const { percentage, hash } = e.data;
-        // hash progress
-        this.hashPercentage = percentage;
+        console.log(`Hash progress: ${percentage}`);
         if (hash) {
           resolve(hash);
           worker = null;
@@ -34,7 +33,8 @@ class Uploader {
       .map(({ chunk, hash }) => {
         const formData = new FormData();
         formData.append('hash', hash);
-        formData.append('filename', fname);
+        formData.append('fileHash', fileHash);
+        formData.append('fileName', fname);
         formData.append('chunk', chunk);
         return formData;
       })
@@ -56,7 +56,7 @@ class Uploader {
       .then(values => {
         console.log(values);
         axios
-          .post('http://localhost:7001/api/merge', { filename: fname })
+          .post('http://localhost:7001/api/merge', { filename: `${fileHash}.${fname.split('.')[1]}` })
           .then(res => {
             console.log(res);
           })

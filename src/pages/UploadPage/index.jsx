@@ -1,3 +1,5 @@
+// https://juejin.im/post/5dff8a26e51d4558105420ed
+
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { Component } from 'react';
 import { Upload, Button, Icon, Progress } from 'antd';
@@ -90,7 +92,7 @@ class UploadPage extends Component {
             {uploading ? 'Uploading' : 'Start Upload'}
           </Button>
         </div>
-        <Progress type="circle" percent={this.state.totalPercent} />
+        <Progress percent={this.state.totalPercent} />
         <ProgressGradientLine list={this.state.uplist} />
       </PageHeaderWrapper>
     );
